@@ -7,6 +7,8 @@ window.ereaPlugin = function(obj){
 		this.showEl = document.getElementById(obj.showEl.slice(1));
 		this.clickEl = document.getElementById(obj.clickEl.slice(1));
 		this.data = obj.data;
+		this.showId = obj.showEl.slice(1);
+		this.clickId = obj.clickEl.slice(1);
 		// this.el = document.getElementById(obj.el);
 	}
 	EreaPlugin.prototype.init = function(){
@@ -18,9 +20,6 @@ window.ereaPlugin = function(obj){
 		this.showEl.style.top = '0px';
 
 		var divEl = document.createElement('div');
-		divEl.addEventListener('selectstart',function(){
-			return false;
-		})
 		divEl.setAttribute('class','ereaPlugin_box');
 		divEl.style.width = window.outerWidth + 'px';
 		this.showEl.appendChild(divEl)
@@ -61,9 +60,11 @@ window.ereaPlugin = function(obj){
 			})
 			console.log(province[j])
 		}
+		var showId = this.showId;
 		this.clickEl.addEventListener('click',function(){
-			alert(77)
+			document.getElementById(showId).style.display = 'block';
 		})
+		this.showEl.style.display = 'none';
 	}
 	return new EreaPlugin();
 }
