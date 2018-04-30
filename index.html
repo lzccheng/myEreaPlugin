@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	
+	<link rel="stylesheet" type="text/css" href="./css/index.css">
+	<script src="./js/index.js"></script>
+	<script src="./js/data.js"></script>
+</head>
+<body>
+	<button id="touch">click</button>
+	<div id="container"></div>
+
+	<script type="text/javascript">
+	
+		var erea = ereaPlugin({
+			showEl: '#container',
+			clickEl: '#touch',
+			data: ereaPlugin_data
+		})
+		erea.init()
+		console.log(window)
+	</script>
+</body>
+</html>
