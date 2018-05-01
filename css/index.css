@@ -28,7 +28,7 @@ ul,li{
 	text-align: center;
 	background-color: #fff;
 	border-bottom: 1px #ddd solid;
-	z-index: 999;
+	z-index: 99;
 }
 .ereaPlugin_box .ereaPlugin_tabs{
 	background-color: #fff;
@@ -41,6 +41,7 @@ ul,li{
 .ereaPlugin_box .ereaPlugin_tabs .ereaPlugin_tabs_child{
 	padding: 5px 8px;
 	cursor: pointer;
+	display: inline-block;
 }
 .ereaPlugin_box .ereaPulgin_item{
 	position: absolute;
@@ -53,4 +54,23 @@ ul,li{
 .ereaPlugin_box .ereaPulgin_item ul li{
 	padding: 5px 8px;
 	cursor: pointer;
+}
+.ereaPlugin_active{
+	color: #E87234;
+}
+.ereaPlugin_line{
+	position: absolute;
+	left: 0;
+	top: 0;
+	height: 3px;
+	border-radius: 3px;
+	background-color: #E87234;
+	z-index: 999;
+	transition: all 0.5s;
+}
+.ereaPlugin_times{
+	position: absolute;
+	right: 0;
+	top: 30%;
+	padding: 5px 10px;
 }

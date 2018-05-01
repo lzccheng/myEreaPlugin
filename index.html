@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Document</title>
-	
+	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
 	<link rel="stylesheet" type="text/css" href="./css/index.css">
 	<script src="./js/index.js"></script>
 	<script src="./js/data.js"></script>
@@ -17,7 +17,10 @@
 		var erea = ereaPlugin({
 			showEl: '#container',
 			clickEl: '#touch',
-			data: ereaPlugin_data
+			data: ereaPlugin_data,
+			callBack: function(res){
+				console.log(res.erea_value)
+			}
 		})
 		erea.init()
 		console.log(window)
