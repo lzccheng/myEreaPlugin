@@ -47,13 +47,13 @@ window.ereaPlugin = function(obj){
 	EreaPlugin.prototype.removeClass = function(dom,className){
 		var str = dom.getAttribute('class');
 		var arr = str.split(' ');
+		var arr2 = [];
 		for(var i=0;i<arr.length;i++){
-			if(arr[i] === className){
-				arr.splice(i,1);
-				dom.setAttribute('class',arr.join(' '));
-				break;
+			if(arr[i] !== className){
+				arr2.push(arr[i]);
 			}
 		}
+		dom.setAttribute('class',arr2.join(' '));
 	}
 	EreaPlugin.prototype.addClass = function(dom,className){
 		var str = dom.getAttribute('class');
@@ -71,23 +71,32 @@ window.ereaPlugin = function(obj){
 		this.erea_value[3] = thisText;
 		this.now_value = thisText;
 		this.divTabsChild4.children[0].innerHTML = this.erea_value[3];
-		obj.callBack&&obj.callBack(this)
+		document.querySelectorAll('body')[0].style.overflow = 'auto';
+		obj.callBack&&obj.callBack(this);
+		this.showEl.style.display = 'none';
+		var showEl_ = this.showEl.querySelectorAll('.ereaPulgin_item');
+		for(var i=1;i<showEl_.length;i++){
+			showEl_[i].parentNode.removeChild(showEl_[i]);
+			this['divTabsChild'+(i+1)].parentNode.removeChild(this['divTabsChild'+(i+1)]);
+		}
+
 	}
 	EreaPlugin.prototype.init = function(){
 		var showEl = this.showEl;
 		var that = this;
 		//background
-		this.showEl.style.width = window.outerWidth + 'px';
-		this.showEl.style.height = window.outerHeight + 'px';
+		this.showEl.style.width = window.innerWidth + 'px';
+		this.showEl.style.height = window.innerWidth + 'px';
 		this.showEl.style.backgroundColor = 'rgba(0,0,0,0.5)';
 		this.showEl.style.position = 'fixed';
 		this.showEl.style.left = '0px';
 		this.showEl.style.top = '0px';
-		this.showEl.addEventListener('click',handleCancel);
+		this.showEl.style.zIndex = '999';
+		// this.showEl.addEventListener('click',handleCancel);
 
-		function handleCancel(){
-			showEl.style.display = 'none';
-		}
+		// function handleCancel(){
+		// 	showEl.style.display = 'none';
+		// }
 
 		that.divEl = document.createElement('div');
 		that.divLine = document.createElement('div');
@@ -96,20 +105,20 @@ window.ereaPlugin = function(obj){
 		that.divLine.setAttribute('class','ereaPlugin_line');
 		that.divTimes.setAttribute('class','ereaPlugin_times');
 		that.divTimes.innerHTML = '&times;';
-		that.divEl.style.width = window.outerWidth + 'px';
-		that.divEl.addEventListener('click',function(event){
-			event.cancelBubble = true;
+		that.divEl.style.width = window.innerWidth + 'px';
+		that.divEl.addEventListener('click',function(e){
+			var e = e || event;
+			e.cancelBubble = true;
 		});
+
 		that.divTimes.addEventListener('click',function(){
 			that.showEl.style.display = 'none';
+			document.querySelectorAll('body')[0].style.overflow = 'auto';
+			ocument.querySelectorAll('body')[0].removeEventListener('touchmove', func, { passive: false })
 		})
 		this.showEl.appendChild(that.divEl);
 		this.showEl.appendChild(that.divLine);
 		this.showEl.appendChild(that.divTimes);
-
-
-
-
 		var divElChild = document.createElement('div');
 		divElChild.setAttribute('class','ereaPlugin_box_child');
 		divElChild.innerHTML = '所在地区';
@@ -117,33 +126,33 @@ window.ereaPlugin = function(obj){
 		
 		var divTabs = document.createElement('div');
 		divTabs.setAttribute('class','ereaPlugin_tabs');
-		divTabs.style.top = divElChild.offsetTop + 32 + 'px';
-		that.divTabsChild = document.createElement('div');
-		that.divTabsChild.setAttribute('class','ereaPlugin_tabs_child');
+		divTabs.style.top = divElChild.offsetTop +  (Number(that.getStyle(divElChild,'height').slice(0,-2)) + 11) + 'px';
+		that.divTabsChild1 = document.createElement('div');
+		that.divTabsChild1.setAttribute('class','ereaPlugin_tabs_child');
 		var divTabsChild_span = document.createElement('span');
 		divTabsChild_span.innerHTML = '请选择';
-		that.divTabsChild.appendChild(divTabsChild_span);
+		that.divTabsChild1.appendChild(divTabsChild_span);
 		
 		//添加类
-		that.addClass(that.divTabsChild,'ereaPlugin_active')
+		that.addClass(that.divTabsChild1,'ereaPlugin_active')
 		that.divEl.appendChild(divTabs);
 
 		
-		divTabs.appendChild(that.divTabsChild);
+		divTabs.appendChild(that.divTabsChild1);
 		//ereaPlugin_line的sytle
-		that.divLine.style.top = divElChild.offsetTop + (29 + Number(that.getStyle(divTabs,'height').slice(0,-2))) + 'px';
-		that.setEreaPlugin_line(that.divTabsChild);
-		that.item = document.createElement('div');
-		that.item.setAttribute('class','ereaPulgin_item province_item');
-		that.item.innerHTML = that.addEl(that.data,'province');
-		that.divEl.appendChild(that.item)
-
+		that.divLine.style.top = divTabs.offsetTop + ( Number(that.getStyle(divTabs,'height').slice(0,-2))) + 'px';
+		that.setEreaPlugin_line(that.divTabsChild1);
+		that.item1 = document.createElement('div');
+		that.item1.setAttribute('class','ereaPulgin_item province_item');
+		that.item1.innerHTML = that.addEl(that.data,'province');
+		that.divEl.appendChild(that.item1)
+		alert(9999)
 		var province = showEl.querySelectorAll('.province');
-		that.divTabsChild.addEventListener('click',function(){
+		that.divTabsChild1.addEventListener('click',function(){
 			that.showItem(1,'province_item');
-			that.addClass(that.divTabsChild,'ereaPlugin_active');
+			that.addClass(that.divTabsChild1,'ereaPlugin_active');
 			//ereaPlugin_line的sytle
-			that.setEreaPlugin_line(that.divTabsChild);
+			that.setEreaPlugin_line(that.divTabsChild1);
 		});
 		for(var j = 0;j<province.length;j++){
 			province[j].addEventListener('click',function(event){
@@ -151,7 +160,6 @@ window.ereaPlugin = function(obj){
 				that.provinceClick(thisText,that.data,'city_arr')
 				divTabsChild_span.innerHTML = that.erea_value[0];
 				if(divTabs.children.length>1){
-					console.log(divTabs.children.length)
 					for(var p=1;p<divTabs.children.length;p++){
 						divTabs.removeChild(divTabs.children[p]);
 					};
@@ -163,13 +171,13 @@ window.ereaPlugin = function(obj){
 				divTabsChild_span2.innerHTML = '请选择';
 				that.divTabsChild2.appendChild(divTabsChild_span2);
 				divTabs.appendChild(that.divTabsChild2);
-				that.item.style.display = 'none';
+				that.item1.style.display = 'none';
 				that.item2 = document.createElement('div');
 				that.item2.setAttribute('class','ereaPulgin_item city_item');
 				that.item2.innerHTML = that.addEl(that.city_arr,'city');
 				that.divEl.appendChild(that.item2);
 				//添加和移除类
-				that.removeClass(that.divTabsChild,'ereaPlugin_active');
+				that.removeClass(that.divTabsChild1,'ereaPlugin_active');
 				that.addClass(that.divTabsChild2,'ereaPlugin_active');
 				//添加点击事件
 				that.divTabsChild2.addEventListener('click',function(){
@@ -262,8 +270,16 @@ window.ereaPlugin = function(obj){
 		var showId = this.showId.slice(1);
 		this.clickEl.addEventListener('click',function(){
 			document.getElementById(showId).style.display = 'block';
+			that.addClass(that.divTabsChild1,'ereaPlugin_active');
+			that.setEreaPlugin_line(that.divTabsChild1);
+			that.showEl.querySelectorAll('.ereaPulgin_item')[0].style.display = 'block';
+			that.showEl.addEventListener('touchmove',function(e){
+				e.stopPropagation();
+			})
+			document.querySelectorAll('body')[0].style.overflow = 'hidden';
 		})
 		this.showEl.style.display = 'none';
+
 	}
 	return new EreaPlugin();
 }
